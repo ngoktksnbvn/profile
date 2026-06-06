@@ -183,7 +183,7 @@ function initTimelineAnimation() {
 function initProjectHover() {
   if (prefersReducedMotion) return;
 
-  document.querySelectorAll(".project-card, .timeline-content, .education-card, .about-me-grid").forEach((card) => {
+  document.querySelectorAll(".project-card, .timeline-content, .education-card, .about-me-grid, .contact-card:not(.contact-card-static)").forEach((card) => {
     card.addEventListener("mouseenter", () => {
       gsap.to(card, {
         y: -8,
@@ -271,31 +271,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
       scrollTo: { y: target, offsetY: 80 },
       ease: "power3.inOut",
     });
-  });
-});
-
-/* ===== Form submit (demo) ===== */
-document.querySelector(".contact-form").addEventListener("submit", (e) => {
-  e.preventDefault();
-
-  const btn = e.target.querySelector('button[type="submit"]');
-  const originalText = btn.textContent;
-
-  gsap.to(btn, {
-    scale: 0.95,
-    duration: 0.1,
-    yoyo: true,
-    repeat: 1,
-    onComplete: () => {
-      btn.textContent = "Đã gửi! ✓";
-      btn.style.background = "#4ade80";
-
-      setTimeout(() => {
-        btn.textContent = originalText;
-        btn.style.background = "";
-        e.target.reset();
-      }, 2500);
-    },
   });
 });
 
