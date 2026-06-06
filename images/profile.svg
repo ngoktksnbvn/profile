@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 500" role="img" aria-label="Trần Văn Ngọ">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#16161f"/>
+      <stop offset="100%" style="stop-color:#1e1a35"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#7c6cff"/>
+      <stop offset="100%" style="stop-color:#a89bff"/>
+    </linearGradient>
+  </defs>
+  <rect width="400" height="500" fill="url(#bg)"/>
+  <circle cx="200" cy="175" r="72" fill="none" stroke="url(#accent)" stroke-width="3" opacity="0.6"/>
+  <circle cx="200" cy="165" r="52" fill="#2a2640"/>
+  <ellipse cx="200" cy="310" rx="95" ry="70" fill="#2a2640"/>
+  <text x="200" y="430" text-anchor="middle" fill="#a89bff" font-family="system-ui,sans-serif" font-size="42" font-weight="700">TVN</text>
+  <text x="200" y="465" text-anchor="middle" fill="#8b8b9e" font-family="system-ui,sans-serif" font-size="14">Thay bằng images/profile.jpg</text>
+</svg>
