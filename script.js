@@ -86,21 +86,15 @@ function initHeroAnimation() {
       ease: "none",
     });
 
-    gsap.to(".badge-1", {
-      y: -12,
-      duration: 2,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-    });
-
-    gsap.to(".badge-2", {
-      y: 12,
-      duration: 2.5,
-      repeat: -1,
-      yoyo: true,
-      ease: "sine.inOut",
-      delay: 0.5,
+    document.querySelectorAll(".floating-badge").forEach((badge, i) => {
+      gsap.to(badge, {
+        y: i % 2 === 0 ? -10 : 10,
+        duration: 2 + i * 0.25,
+        repeat: -1,
+        yoyo: true,
+        ease: "sine.inOut",
+        delay: i * 0.2,
+      });
     });
   }
 
@@ -109,7 +103,7 @@ function initHeroAnimation() {
 
 /* ===== Counter animation ===== */
 function animateCounters() {
-  document.querySelectorAll(".stat-number").forEach((el) => {
+  document.querySelectorAll(".stat-number[data-count]").forEach((el) => {
     const target = parseInt(el.dataset.count, 10);
 
     ScrollTrigger.create({
@@ -183,7 +177,7 @@ function initTimelineAnimation() {
 function initProjectHover() {
   if (prefersReducedMotion) return;
 
-  document.querySelectorAll(".project-card, .timeline-content, .education-card, .about-me-grid, .contact-card:not(.contact-card-static)").forEach((card) => {
+  document.querySelectorAll(".timeline-content, .education-card, .about-me-grid, .contact-card:not(.contact-card-static)").forEach((card) => {
     card.addEventListener("mouseenter", () => {
       gsap.to(card, {
         y: -8,
@@ -274,107 +268,6 @@ document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
   });
 });
 
-/* ===== Gallery ===== */
-const galleryImages = [
-  "images/2.jpg",
-  "images/3.jpg",
-  "images/4.jpg",
-  "images/5.jpg",
-];
-
-let currentImageIndex = 0;
-
-function initGallery() {
-  const lightbox = document.getElementById("lightbox");
-  const lightboxImg = document.getElementById("lightbox-img");
-  const lightboxCounter = document.getElementById("lightbox-counter");
-  const closeBtn = lightbox.querySelector(".lightbox-close");
-  const prevBtn = lightbox.querySelector(".lightbox-prev");
-  const nextBtn = lightbox.querySelector(".lightbox-next");
-
-  function openLightbox(index) {
-    currentImageIndex = index;
-    lightboxImg.src = galleryImages[index];
-    lightboxImg.alt = `Ảnh ${index + 1}`;
-    lightboxCounter.textContent = `${index + 1} / ${galleryImages.length}`;
-    lightbox.classList.add("active");
-    lightbox.setAttribute("aria-hidden", "false");
-    document.body.style.overflow = "hidden";
-
-    gsap.fromTo(
-      lightboxImg,
-      { scale: 0.9, autoAlpha: 0 },
-      { scale: 1, autoAlpha: 1, duration: 0.4, ease: "power2.out" }
-    );
-  }
-
-  function closeLightbox() {
-    lightbox.classList.remove("active");
-    lightbox.setAttribute("aria-hidden", "true");
-    document.body.style.overflow = "";
-  }
-
-  function showImage(index) {
-    const next = (index + galleryImages.length) % galleryImages.length;
-    currentImageIndex = next;
-    lightboxImg.src = galleryImages[next];
-    lightboxImg.alt = `Ảnh ${next + 1}`;
-    lightboxCounter.textContent = `${next + 1} / ${galleryImages.length}`;
-
-    gsap.fromTo(
-      lightboxImg,
-      { x: 20, autoAlpha: 0 },
-      { x: 0, autoAlpha: 1, duration: 0.3, ease: "power2.out" }
-    );
-  }
-
-  document.querySelectorAll(".gallery-item").forEach((item) => {
-    item.addEventListener("click", () => {
-      openLightbox(parseInt(item.dataset.index, 10));
-    });
-  });
-
-  closeBtn.addEventListener("click", closeLightbox);
-  prevBtn.addEventListener("click", () => showImage(currentImageIndex - 1));
-  nextBtn.addEventListener("click", () => showImage(currentImageIndex + 1));
-
-  lightbox.addEventListener("click", (e) => {
-    if (e.target === lightbox) closeLightbox();
-  });
-
-  document.addEventListener("keydown", (e) => {
-    if (!lightbox.classList.contains("active")) return;
-    if (e.key === "Escape") closeLightbox();
-    if (e.key === "ArrowLeft") showImage(currentImageIndex - 1);
-    if (e.key === "ArrowRight") showImage(currentImageIndex + 1);
-  });
-
-  if (!prefersReducedMotion) {
-    gsap.from(".gallery-item", {
-      autoAlpha: 0,
-      y: 30,
-      scale: 0.95,
-      duration: 0.6,
-      stagger: 0.08,
-      ease: "power3.out",
-      scrollTrigger: {
-        trigger: ".gallery-grid",
-        start: "top 88%",
-        once: true,
-      },
-    });
-
-    document.querySelectorAll(".gallery-item").forEach((item) => {
-      item.addEventListener("mouseenter", () => {
-        gsap.to(item, { y: -6, duration: 0.3, ease: "power2.out" });
-      });
-      item.addEventListener("mouseleave", () => {
-        gsap.to(item, { y: 0, duration: 0.3, ease: "power2.out" });
-      });
-    });
-  }
-}
-
 /* ===== About me photo reveal ===== */
 function initAboutMePhoto() {
   if (prefersReducedMotion) return;
@@ -400,8 +293,6 @@ function initAboutMePhoto() {
 }
 
 /* ===== Init ===== */
-initGallery();
-
 if (prefersReducedMotion) {
   gsap.set("[data-animate], [data-scroll], .floating-badge", {
     autoAlpha: 1,
